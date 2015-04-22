@@ -44,6 +44,7 @@ NeoBundle 'bbatsov/rubocop'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'vim-scripts/ruby-matchit'
+NeoBundle 'thinca/vim-ref'
 
 " colorschema
 NeoBundle 'altercation/vim-colors-solarized'
