@@ -1,56 +1,59 @@
 "============================= neobundle  ===========================
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
-endif
-" originalrepos on github
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-  \     'windows' : 'make -f make_mingw32.mak',
-  \     'mac' : 'make -f make_mac.mak',
-  \     'unix' : 'make -f make_unix.mak',
-  \   }, 
-  \ }
-NeoBundle 'VimClojure'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'rhysd/accelerated-jk'
-NeoBundle 'rhysd/clever-f.vim'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'itchyny/landscape.vim'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'alpaca-tc/vim-endwise'
-NeoBundle 'alpaca-tc/alpaca_tags'
-NeoBundle 'scrooloose/nerdtree.git'
-NeoBundle 'tpope/vim-surround.git'
-NeoBundle 'open-browser.vim'
+let s:use_dein = 1
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-" Ruby
-NeoBundle 'bbatsov/rubocop'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'vim-scripts/ruby-matchit'
+if &compatible
+  set nocompatible
+endif
+
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+endif
+
+execute 'set runtimepath^=' . s:dein_repo_dir
+
+call dein#begin(s:dein_dir)
+
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/vimshell')
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neocomplcache')
+call dein#add('Shougo/neosnippet')
+call dein#add('rhysd/accelerated-jk')
+call dein#add('VimClojure')
+call dein#add('honza/vim-snippets')
+call dein#add('rhysd/clever-f.vim')
+call dein#add('jpalardy/vim-slime')
+call dein#add('scrooloose/syntastic')
+call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('tpope/vim-fugitive')
+call dein#add('kien/ctrlp.vim')
+call dein#add('osyo-manga/vim-over')
+call dein#add('Lokaltog/vim-powerline')
+call dein#add('itchyny/landscape.vim')
+call dein#add('bling/vim-airline')
+call dein#add('bbatsov/rubocop')
+call dein#add('alpaca-tc/vim-endwise')
+call dein#add('alpaca-tc/alpaca_tags')
 
 " colorschema
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'jeffreyiacono/vim-colors-wombat'
-NeoBundle 'mrkn/mrkn256.vim'
-NeoBundle 'therubymug/vim-pyte'
-NeoBundle 'vim-scripts/Zenburn'
+call dein#add('ujihisa/unite-colorscheme')
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('jeffreyiacono/vim-colors-wombat')
+call dein#add('mrkn/mrkn256.vim')
+call dein#add('therubymug/vim-pyte')
+call dein#add('vim-scripts/Zenburn')
 
-""NeoBundle 'https://bitbucket.org/kovisoft/slimv'
+"call dein#add(https://bitbucket.org/kovisoft/slimv')
+
+call dein#end()
+
+if dein#check_install()
+  call dein#install()
+endif
 
 filetype plugin indent on     " required!
 filetype indent on
@@ -85,8 +88,8 @@ highlight Directory  ctermfg=DarkGreen  ctermbg=NONE
 colorscheme default
 nnoremap <C-h>       :<C-u>help<Space>
 nnoremap <C-h><C-h>  :<C-u>help<Space><C-r><C-w><Enter>
-nnorema <Space>. :<C-u>edit $MYVIMRC<Enter>
-nnorema <Space>s. :<C-u>source $MYVIMRC<Enter>
+noremap <Space>. :<C-u>edit $MYVIMRC<Enter>
+noremap <Space>s. :<C-u>source $MYVIMRC<Enter>
 
 set nocursorline
 autocmd InsertEnter,InsertLeave * set cursorline!
@@ -94,8 +97,6 @@ autocmd InsertEnter,InsertLeave * set cursorline!
 imap <c-j> <esc>
 let mapleader=" "
 
-nnorema <Space>. :<C-u>edit $MYVIMRC<Enter>
-nnorema <Space>s. :<C-u>source $MYVIMRC<Enter>
 "====================================================================
 
 "======================== syntastic rubocop =========================
@@ -103,71 +104,6 @@ let g:syntastic_mode_map = { 'mode': 'passive',
             \ 'active_filetypes': ['ruby'] }
 let g:syntastic_ruby_checkers = ['rubocop']
 let g:syntastic_quiet_messages = {'level': 'warnings'}
-"====================================================================
-
-"======================== neocomplcache =============================
-let g:neocomplcache_enable_at_startup = 1
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
-let g:neocomplcache_max_list = 20
-let g:neocomplcache_enable_smart_case = 1
-"====================================================================
-
-"======================== neosnippet ================================
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-"====================================================================
-
-"======================== Rsense ====================================
-let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3'
-"====================================================================
-
-"======================== Key Mapping ===============================
-  nmap <silent> <C-e>      :NERDTreeToggle<CR>
-  vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-  omap <silent> <C-e>      :NERDTreeToggle<CR>
-  imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-  cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeDirArrows=0
-let g:NERDTreeMouseMode=2
-
-" キー割り当て: ファイルタイプからスクリプトをRで実行
-if has("autocmd")
-  command! CommandRun call s:CommandRun()
-  map R :CommandRun<CR>
-  function! s:CommandRun()
-    :w
-    if &filetype == "php"
-      :!php %
-    elseif &filetype == "perl"
-      :!perl %
-    elseif &filetype == "ruby"
-      :!ruby %
-    elseif &filetype == "python"
-      :!python %
-    endif
-  endfunction
-endif
 "====================================================================
 
 "========================= AlpacaTags ===============================
@@ -193,66 +129,12 @@ nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!','g')<CR>!!gI<Left><Left><Left>
 "====================================================================
 
-"======================== open-browser ==============================
-" カーソル下のURLをブラウザで開く
-nmap <Leader>o <Plug>(openbrowser-open)
-vmap <Leader>o <Plug>(openbrowser-open)
-" ググる
-nnoremap <Leader>g :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
-"====================================================================
-
 "========================  高速でjkを使う ===========================
 let g:accelerated_jk_acceleration_table = [10,5,3]
 nmap j <Plug>(accelerated_jk_gj)
 nmap k <Plug>(accelerated_jk_gk)
 "====================================================================
 
-"======================== タブを便利に ==============================
-" Anywhere SID.
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-" Set tabline.
-function! s:my_tabline()  "{{{
-  let s = ''
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-    let title = fnamemodify(bufname(bufnr), ':t')
-    let title = '[' . title . ']'
-    let s .= '%'.i.'T'
-    let s .= '%#' . (i == tabpagenr() ?  'TabLineSel' : 'TabLine') . '#'
-    let s .= no . ':' . title
-    let s .= mod
-    let s .= '%#TabLineFill# '
-  endfor
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction "}}}
-let &tabline = '%!'.  s:SID_PREFIX() .  'my_tabline()'
-set showtabline=2 " 常にタブラインを表示
-
-" The prefix key.
-nnoremap    [Tag] <Nop>
-nmap    m [Tag]
-" Tab jump
-for n in range(1, 9)
-  execute 'nnoremap <silent> [Tag]'.n ':<C-u>tabnext'.n.'<CR>'
-endfor
-" t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
-
-map <silent> [Tag]c :tablast <bar> tabnew<CR>
-" tc 新しいタブを一番右に作る
-map <silent> [Tag]x :tabclose<CR>
-" tx タブを閉じる
-map <silent> [Tag]n :tabnext<CR>
-" tn 次のタブ
-map <silent> [Tag]p :tabprevious<CR>
-" tp 前のタブ
-"====================================================================
 
 "================== 階層色付け(vim-indent-guides) ====================
 let g:indent_guides_enable_on_vim_startup = 1
@@ -276,7 +158,7 @@ function! Scouter(file, ...)
   let lines = readfile(a:file)
   if !a:0 || !a:1
     let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-  endif
+ endif
   return len(filter(lines,'v:val !~ pat'))
 endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
